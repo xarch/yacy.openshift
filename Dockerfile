@@ -25,7 +25,7 @@ RUN sed -i "/server.https=false/c\server.https=true" \
 	/opt/yacy/defaults/yacy.init
 
 # Create a user with custom UID.
-RUN adduser --system --group --no-create-home --disabled-password --uid 2016 yacy
+RUN adduser --system --user-group --no-create-home --uid 2016 yacy
 
 # Set ownership of the YaCy directory to the current user and group.
 RUN chown yacy:yacy -R /opt/yacy
