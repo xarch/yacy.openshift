@@ -32,8 +32,8 @@ RUN sed -i "/adminAccountBase64MD5=/c\${YACY_INIT_USER}AccountBase64MD5=${YACY_I
 RUN sed -i "/server.https=false/c\server.https=true" \
 	/opt/yacy/defaults/yacy.init
 
-# Create a group & user with custom GID & UID.
-RUN addgroup -g 2016 yacy && adduser -g 2016 -u 2016 yacy
+# Create a user with custom UID.
+RUN adduser --system --group --no-create-home --disabled-password --uid 2016 yacy
 
 # Set ownership of the YaCy directory to the current user and group.
 RUN chown yacy:yacy -R /opt/yacy
