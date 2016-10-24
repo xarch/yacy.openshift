@@ -1,26 +1,18 @@
-# Use stable version of OpenJDK on
-# a Debian based distro.
-FROM openjdk:7
-
-# Trace the version of OpenJDK in use.
-RUN java -version
+# Use the base image of CentOS for OpenShift.
+FROM openshift:base-centos7
 
 # Use "/opt" as a working directory.
 WORKDIR /opt
 
-# This part is based on the official Docker image:
-# - Install "ant" and "git";
-# - Clone YaCy git repository;
-# - Compile it with "ant";
-# - Remove space consuming ".git" directory;
-# - Remove both "ant" and "git".
-RUN apt-get update && \
-	apt-get install -yq ant git && \
+# Install Ant, Git, and OpenJDK, clone the YaCy repo, and build the project.
+# Remove unneeded components at the end.
+RUN yum install -y --enablerepo=centosplus \
+	ant git java-1.8.0-openjdk java-1.8.0-openjdk-devel && \
 	git clone https://github.com/yacy/yacy_search_server.git yacy && \
 	ant compile -f /opt/yacy/build.xml && \
 	rm -rf /opt/yacy/.git && \
-	apt-get purge -yq --auto-remove ant git && \
-	apt-get clean
+	yum autoremove -y ant git && \
+	yum clean all -y
 
 # Use value of $YACY_INIT_USER environment variable as initial username
 # and value of $YACY_INIT_PASS as initial password. Expected format of the
