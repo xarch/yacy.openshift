@@ -21,7 +21,7 @@ RUN yum install -y --enablerepo=centosplus \
 # https://github.com/yacy/yacy_search_server/blob/master/Heroku.md#administrator-password
 # So, we cannot use environment variables.
 RUN sed -i "/adminAccountBase64MD5=/c\adminAccountBase64MD5=MD5:e672161ffdce91be4678605f4f4e6786" \
-	/opt/yacy_search_server/defaults/yacy.init
+	/opt/yacy/defaults/yacy.init
 
 
 # Enable HTTPS by default.
