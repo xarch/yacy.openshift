@@ -14,6 +14,14 @@ RUN yum install -y --enablerepo=centosplus \
 	yum autoremove -y ant git && \
 	yum clean all -y
 
+# Set default user and password to "admin" and "docker".
+# This is against OpenShift guidelines, however, there is no other easy way
+# to set these data. Custom hashing algorithm is used by YaCy, so user will have hard
+# time coming up with their own credentials anyway. Though we still allow them to
+# redefine it if they are capable of doing that.
+RUN if [ $YACY_INIT_USER == "" ]; then export $YACY_INIT_USER="admin"; fi
+RUN if [ $YACY_INIT_PASS == "" ]; then export $YACY_INIT_PASS="MD5:e672161ffdce91be4678605f4f4e6786"; fi
+
 # Use value of $YACY_INIT_USER environment variable as initial username
 # and value of $YACY_INIT_PASS as initial password. Expected format of the
 # password is "MD5:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx".
