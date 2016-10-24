@@ -14,6 +14,16 @@ RUN yum install -y --enablerepo=centosplus \
 	yum autoremove -y ant git && \
 	yum clean all -y
 
+# Use "docker" as a default password.
+# This is against OpenShift guidelines, however, there is still no way
+# for the end user to generate a YaCy password hash without running
+# an instance anyway. Read more:
+# https://github.com/yacy/yacy_search_server/blob/master/Heroku.md#administrator-password
+# So, we cannot use environment variables.
+RUN sed -i "/adminAccountBase64MD5=/c\adminAccountBase64MD5=MD5:e672161ffdce91be4678605f4f4e6786" \
+	/opt/yacy_search_server/defaults/yacy.init
+
+
 # Enable HTTPS by default.
 RUN sed -i "/server.https=false/c\server.https=true" \
 	/opt/yacy/defaults/yacy.init
