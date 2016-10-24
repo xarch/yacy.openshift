@@ -42,8 +42,5 @@ EXPOSE 8090 8443
 # container destruction / restart.
 VOLUME ["/opt/yacy/DATA"]
 
-# Run YaCy as a current user.
-USER `id -u`
-
 # Start YaCy. Use "-d" flag for debug mode.
 CMD sh /opt/yacy/startYACY.sh -d
