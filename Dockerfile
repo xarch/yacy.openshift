@@ -14,8 +14,7 @@ WORKDIR /opt
 # - Compile it with "ant";
 # - Remove space consuming ".git" directory;
 # - Remove both "ant" and "git".
-RUN apt-get update && \
-	apt-get install -yq ant git && \
+RUN apt-get install -yq ant git && \
 	git clone https://github.com/yacy/yacy_search_server.git yacy && \
 	ant compile -f /opt/yacy/build.xml && \
 	rm -rf /opt/yacy/.git && \
@@ -32,11 +31,19 @@ RUN sed -i "/adminAccountBase64MD5=/c\${YACY_INIT_USER}AccountBase64MD5=${YACY_I
 RUN sed -i "/server.https=false/c\server.https=true" \
 	/opt/yacy/defaults/yacy.init
 
+# Create a group & user with custom GID & UID.
+RUN addgroup -g 2016 yacy && adduser -g 2016 -u 2016 yacy
+
 # Set ownership of the YaCy directory to the current user and group.
-RUN chown `id -u`:`id -g` -R /opt/yacy
+RUN chown yacy:yacy -R /opt/yacy
 
 # Expose default ports.
 EXPOSE 8090 8443
+
+# Run commands as YaCy non-root user.
+# OpenShift requires a numeric value of User ID. For details see:
+# https://docs.openshift.org/latest/creating_images/guidelines.html#use-uid
+USER 2016
 
 # Set data volume so YaCy data will persist after
 # container destruction / restart.
