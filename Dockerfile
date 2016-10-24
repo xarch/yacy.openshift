@@ -14,7 +14,8 @@ WORKDIR /opt
 # - Compile it with "ant";
 # - Remove space consuming ".git" directory;
 # - Remove both "ant" and "git".
-RUN apt-get install -yq ant git && \
+RUN apt-get update && \
+	apt-get install -yq ant git && \
 	git clone https://github.com/yacy/yacy_search_server.git yacy && \
 	ant compile -f /opt/yacy/build.xml && \
 	rm -rf /opt/yacy/.git && \
