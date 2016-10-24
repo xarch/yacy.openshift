@@ -1,5 +1,5 @@
 # Use the base image of CentOS for OpenShift.
-FROM openshift:base-centos7
+FROM openshift/base-centos7
 
 # Use "/opt" as a working directory.
 WORKDIR /opt
