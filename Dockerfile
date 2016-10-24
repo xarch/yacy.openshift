@@ -1,6 +1,6 @@
-# Use the latest version of OpenJDK on
+# Use stable version of OpenJDK on
 # a Debian based distro.
-FROM openjdk:latest
+FROM openjdk:7
 
 # Trace the version of OpenJDK in use.
 RUN java -version
